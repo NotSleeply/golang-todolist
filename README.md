@@ -8,8 +8,8 @@
 golang-todolist/
 ├── backend/      # Go 后端服务
 │   ├── main.go   # 后端入口
-│   ├── db/       # 数据模型
-│   └── static/   # 后端静态资源（可选）
+│   └──  db/       # 数据模型
+│   
 ├── frontend/     # 前端静态页面
 │   ├── index.html
 │   ├── script.js
