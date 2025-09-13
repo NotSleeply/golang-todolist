@@ -1,11 +1,11 @@
 package db
 
 import (
-	"log"
-
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
+
+var db *gorm.DB
 
 type Todo struct {
 	ID          string `json:"id"`
@@ -15,8 +15,10 @@ type Todo struct {
 }
 
 func Init() {
-	// init db
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	// 修改为你的 MySQL 连接信息
+	dsn := "root:mYdatabase@tcp(127.0.0.1:3305)/my_database?charset=utf8mb4&parseTime=True&loc=Local"
+	var err error
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -26,47 +28,22 @@ func Init() {
 }
 
 func CreateTodo(todo Todo) error {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
 	result := db.Create(&todo)
 	return result.Error
 }
 
 func GetAllTodos() ([]Todo, error) {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
 	var todos []Todo
 	result := db.Find(&todos)
 	return todos, result.Error
 }
 
 func UpdateTodo(todo Todo) error {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
 	result := db.Save(&todo)
 	return result.Error
 }
 
 func DeleteTodo(id string) error {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	// result := db.Delete(&Todo{}, id)
 	result := db.Delete(&Todo{}, "id = ?", id)
 	return result.Error
 }

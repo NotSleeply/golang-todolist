@@ -27,6 +27,12 @@ func main() {
 
 	db.Init()
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("收到根路径 / 访问，来自 %s", r.RemoteAddr)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("欢迎访问 TodoList 服务"))
+	})
+
 	// create a new todo
 	http.HandleFunc("/create", enableCORS(handleCreateTodo))
 
@@ -39,8 +45,8 @@ func main() {
 	// delete a todo
 	http.HandleFunc("/delete", enableCORS(handleDelete))
 
-	log.Println("Starting server on :8000")
-	if err := http.ListenAndServe(":8000", nil); err != nil {
+	log.Println("Starting server on :8001")
+	if err := http.ListenAndServe(":8001", nil); err != nil {
 		log.Println("Server error:", err)
 	}
 }
