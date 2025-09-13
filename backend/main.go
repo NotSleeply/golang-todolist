@@ -7,7 +7,6 @@ import (
 
 	"github.com/google/uuid"
 
-	// "todo/db"
 	"net/http"
 )
 
@@ -41,8 +40,9 @@ func main() {
 	http.HandleFunc("/delete", enableCORS(handleDelete))
 
 	log.Println("Starting server on :8000")
-
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		log.Println("Server error:", err)
+	}
 }
 
 func handleCreateTodo(w http.ResponseWriter, r *http.Request) {

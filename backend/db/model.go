@@ -14,8 +14,6 @@ type Todo struct {
 	Completed   bool   `json:"completed"`
 }
 
-// var Todos []Todo
-
 func Init() {
 	// init db
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
