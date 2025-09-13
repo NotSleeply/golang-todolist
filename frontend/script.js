@@ -1,6 +1,6 @@
 // 获取TODO
 async function getTodos() {
-    const todos = await fetch('http://localhost:8000/get-all-todos')
+    const todos = await fetch('http://localhost:8001/get-all-todos')
     const todosData = await todos.json()
     if (!todosData || todosData.length === 0) {
         const ul = document.querySelector('ul')
@@ -34,7 +34,7 @@ getTodos()
 async function createTodo() {
     const form = document.querySelector('form')
     const formData = new FormData(form)
-    const todo = await fetch('http://localhost:8000/create', {
+    const todo = await fetch('http://localhost:8001/create', {
         method: 'POST',
         body: JSON.stringify({
             name: formData.get('name'),
@@ -55,7 +55,7 @@ async function handleDisplay(id) {
 async function handleUpdate(id) {
     const name = document.querySelector(`#name-${id}`).value
     const description = document.querySelector(`#description-${id}`).value
-    const todo = await fetch('http://localhost:8000/update', {
+    const todo = await fetch('http://localhost:8001/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ async function handleUpdate(id) {
 
 // 删除todo
 async function deleteTodo(id) {
-    const todo = await fetch('http://localhost:8000/delete', {
+    const todo = await fetch('http://localhost:8001/delete', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ async function handleFinished(id) {
     const name = document.querySelector(`#name1-${id}`).textContent
     const description = document.querySelector(`#description1-${id}`).textContent
 
-    const todo = await fetch('http://localhost:8000/update', {
+    const todo = await fetch('http://localhost:8001/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
