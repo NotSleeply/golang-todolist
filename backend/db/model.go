@@ -20,7 +20,7 @@ func Init() {
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		panic("连接数据库失败: " + err.Error())
 	}
 
 	// 迁移 schema
