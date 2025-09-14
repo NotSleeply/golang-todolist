@@ -116,7 +116,7 @@
 
     <!-- 编辑表单 -->
     <div v-if="isEditing" class="edit-form">
-      <t-form @submit.prevent="handleUpdate" layout="vertical">
+      <t-form @submit="handleUpdate" layout="vertical">
         <t-form-item label="任务名称" name="name" :rules="[rules.required]">
           <t-input v-model="editData.name" placeholder="请输入任务名称" clearable />
         </t-form-item>
