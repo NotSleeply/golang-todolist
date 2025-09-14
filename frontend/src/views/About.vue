@@ -1,165 +1,213 @@
 <template>
-  <v-container class="py-8">
-    <v-row justify="center">
-      <v-col cols="12" md="10" lg="8">
-        <!-- 页面标题 -->
-        <v-card class="mb-6 text-center" elevation="8" color="primary" dark>
-          <v-card-title class="text-h3 pa-6">
-            <v-icon left size="large">mdi-information</v-icon>
-            关于 TodoList
-          </v-card-title>
-        </v-card>
+  <div class="about-page">
+    <t-space direction="vertical" size="24px" style="width: 100%">
+      <!-- 页面标题 -->
+      <t-card class="title-card" theme="primary">
+        <div class="title-content">
+          <t-icon name="info-circle" size="48px" />
+          <h1 class="page-title">关于 TodoList</h1>
+        </div>
+      </t-card>
 
-        <!-- 应用描述 -->
-        <v-card class="mb-6" elevation="4">
-          <v-card-text class="pa-6">
-            <v-icon left size="large" color="primary" class="mb-4">mdi-application</v-icon>
-            <p class="text-h6 mb-0">这是一个基于 Vue 3 + Go 的现代化 TodoList 应用。</p>
-          </v-card-text>
-        </v-card>
+      <!-- 应用描述 -->
+      <t-card class="description-card">
+        <template #header>
+          <div class="card-header">
+            <t-icon name="desktop" />
+            <span class="header-title">应用描述</span>
+          </div>
+        </template>
+        <p class="description-text">这是一个基于 Vue 3 + Go 的现代化 TodoList 应用。</p>
+      </t-card>
 
-        <!-- 技术栈 -->
-        <v-card class="mb-6" elevation="4">
-          <v-card-title class="text-h4 pa-4">
-            <v-icon left color="primary">mdi-layers</v-icon>
-            技术栈
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-card variant="outlined" class="h-100">
-                  <v-card-title class="text-h5">
-                    <v-icon left color="primary">mdi-web</v-icon>
-                    前端
-                  </v-card-title>
-                  <v-card-text>
-                    <v-list>
-                      <v-list-item>
-                        <v-list-item-title>Vue 3 (Composition API)</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Vuetify 3</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Vite</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Pinia (状态管理)</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Vue Router</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Axios</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-card-text>
-                </v-card>
-              </v-col>
+      <!-- 技术栈 -->
+      <t-card class="tech-stack-card">
+        <template #header>
+          <div class="card-header">
+            <t-icon name="layers" />
+            <span class="header-title">技术栈</span>
+          </div>
+        </template>
 
-              <v-col cols="12" md="6">
-                <v-card variant="outlined" class="h-100">
-                  <v-card-title class="text-h5">
-                    <v-icon left color="success">mdi-server</v-icon>
-                    后端
-                  </v-card-title>
-                  <v-card-text>
-                    <v-list>
-                      <v-list-item>
-                        <v-list-item-title>Go (Golang)</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>Gin 框架</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>GORM</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>MySQL</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <t-row :gutter="24">
+          <t-col :span="6">
+            <t-card variant="outline" class="tech-card">
+              <template #header>
+                <div class="tech-header">
+                  <t-icon name="logo-chrome" />
+                  <span>前端</span>
+                </div>
+              </template>
+              <t-list split>
+                <t-list-item>Vue 3 (Composition API)</t-list-item>
+                <t-list-item>TDesign Vue Next</t-list-item>
+                <t-list-item>Vite</t-list-item>
+                <t-list-item>Pinia (状态管理)</t-list-item>
+                <t-list-item>Vue Router</t-list-item>
+                <t-list-item>Axios</t-list-item>
+              </t-list>
+            </t-card>
+          </t-col>
 
-        <!-- 功能特性 -->
-        <v-card class="mb-6" elevation="4">
-          <v-card-title class="text-h4 pa-4">
-            <v-icon left color="primary">mdi-star</v-icon>
-            功能特性
-          </v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="primary">mdi-pencil</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>创建、编辑、删除任务</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="success">mdi-check-circle</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>标记任务完成状态</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="info">mdi-chart-line</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>任务统计</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="purple">mdi-palette</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>现代化的用户界面</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="orange">mdi-responsive</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>响应式设计</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-prepend>
-                  <v-icon color="teal">mdi-sync</v-icon>
-                </v-list-item-prepend>
-                <v-list-item-title>实时数据同步</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
+          <t-col :span="6">
+            <t-card variant="outline" class="tech-card">
+              <template #header>
+                <div class="tech-header">
+                  <t-icon name="server" />
+                  <span>后端</span>
+                </div>
+              </template>
+              <t-list split>
+                <t-list-item>Go (Golang)</t-list-item>
+                <t-list-item>Gin 框架</t-list-item>
+                <t-list-item>GORM</t-list-item>
+                <t-list-item>MySQL</t-list-item>
+              </t-list>
+            </t-card>
+          </t-col>
+        </t-row>
+      </t-card>
 
-        <!-- 版本信息 -->
-        <v-card elevation="4" color="grey-lighten-4">
-          <v-card-title class="text-h5 pa-4">
-            <v-icon left color="primary">mdi-information-outline</v-icon>
-            版本信息
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-chip color="primary" prepend-icon="mdi-tag">
-                  版本: 1.0.0
-                </v-chip>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-chip color="success" prepend-icon="mdi-calendar">
-                  构建时间: {{ new Date().toLocaleDateString() }}
-                </v-chip>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+      <!-- 功能特性 -->
+      <t-card class="features-card">
+        <template #header>
+          <div class="card-header">
+            <t-icon name="star" />
+            <span class="header-title">功能特性</span>
+          </div>
+        </template>
+
+        <t-list split>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="edit" class="feature-icon" />
+            </template>
+            创建、编辑、删除任务
+          </t-list-item>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="check-circle" class="feature-icon" />
+            </template>
+            标记任务完成状态
+          </t-list-item>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="chart-line" class="feature-icon" />
+            </template>
+            任务统计
+          </t-list-item>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="palette" class="feature-icon" />
+            </template>
+            现代化的用户界面
+          </t-list-item>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="mobile" class="feature-icon" />
+            </template>
+            响应式设计
+          </t-list-item>
+          <t-list-item>
+            <template #prefix>
+              <t-icon name="refresh" class="feature-icon" />
+            </template>
+            实时数据同步
+          </t-list-item>
+        </t-list>
+      </t-card>
+
+      <!-- 版本信息 -->
+      <t-card class="version-card">
+        <template #header>
+          <div class="card-header">
+            <t-icon name="info" />
+            <span class="header-title">版本信息</span>
+          </div>
+        </template>
+
+        <t-row :gutter="16">
+          <t-col :span="6">
+            <t-tag theme="primary" size="large">
+              <template #icon>
+                <t-icon name="tag" />
+              </template>
+              版本: 1.0.0
+            </t-tag>
+          </t-col>
+          <t-col :span="6">
+            <t-tag theme="success" size="large">
+              <template #icon>
+                <t-icon name="calendar" />
+              </template>
+              构建时间: {{ new Date().toLocaleDateString() }}
+            </t-tag>
+          </t-col>
+        </t-row>
+      </t-card>
+    </t-space>
+  </div>
 </template>
 
 <script setup>
-// 这里可以添加组件逻辑
+  // 这里可以添加组件逻辑
 </script>
 
+<style scoped>
+  .about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .title-card {
+    text-align: center;
+  }
+
+  .title-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 48px 24px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .description-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .tech-card {
+    height: 100%;
+  }
+
+  .tech-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+
+  .feature-icon {
+    color: var(--td-brand-color);
+  }
+</style>

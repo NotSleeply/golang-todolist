@@ -50,71 +50,140 @@
 </script>
 
 <template>
-  <v-container class="py-8">
-    <v-row justify="center">
-      <v-col cols="12" md="10" lg="8">
-        <!-- 页面标题 -->
-        <v-card class="mb-6 text-center" elevation="8">
-          <v-card-title class="text-h3 pa-6">
-            <v-icon left size="large" color="primary">mdi-format-list-checks</v-icon>
-            {{ $route.meta.title || 'Vue 3 TodoList' }}
-          </v-card-title>
-        </v-card>
+  <div class="home-page">
+    <t-space direction="vertical" size="24px" style="width: 100%">
+      <!-- 页面标题 -->
+      <t-card class="title-card">
+        <div class="title-content">
+          <t-icon name="format-list-checks" size="32px" />
+          <h1 class="page-title">Vue 3 TodoList</h1>
+        </div>
+      </t-card>
 
-        <!-- 统计信息 -->
-        <v-row class="mb-6">
-          <v-col cols="12" sm="4">
-            <v-card class="text-center" color="primary" dark elevation="4">
-              <v-card-text>
-                <v-icon size="48" class="mb-2">mdi-format-list-bulleted</v-icon>
-                <div class="text-h4 font-weight-bold">{{ todoStore.totalTodos }}</div>
-                <div class="text-subtitle1">总任务</div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" sm="4">
-            <v-card class="text-center" color="warning" dark elevation="4">
-              <v-card-text>
-                <v-icon size="48" class="mb-2">mdi-clock-outline</v-icon>
-                <div class="text-h4 font-weight-bold">{{ todoStore.pendingTodos.length }}</div>
-                <div class="text-subtitle1">待完成</div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" sm="4">
-            <v-card class="text-center" color="success" dark elevation="4">
-              <v-card-text>
-                <v-icon size="48" class="mb-2">mdi-check-circle</v-icon>
-                <div class="text-h4 font-weight-bold">{{ todoStore.completedTodos.length }}</div>
-                <div class="text-subtitle1">已完成</div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+      <!-- 统计信息 -->
+      <t-row :gutter="16">
+        <t-col :span="4">
+          <t-card class="stat-card stat-primary">
+            <div class="stat-content">
+              <t-icon name="format-list-bulleted" size="32px" class="stat-icon" />
+              <div class="stat-number">{{ todoStore.totalTodos }}</div>
+              <div class="stat-label">总任务</div>
+            </div>
+          </t-card>
+        </t-col>
+        <t-col :span="4">
+          <t-card class="stat-card stat-warning">
+            <div class="stat-content">
+              <t-icon name="time" size="32px" class="stat-icon" />
+              <div class="stat-number">{{ todoStore.pendingTodos.length }}</div>
+              <div class="stat-label">待完成</div>
+            </div>
+          </t-card>
+        </t-col>
+        <t-col :span="4">
+          <t-card class="stat-card stat-success">
+            <div class="stat-content">
+              <t-icon name="check-circle" size="32px" class="stat-icon" />
+              <div class="stat-number">{{ todoStore.completedTodos.length }}</div>
+              <div class="stat-label">已完成</div>
+            </div>
+          </t-card>
+        </t-col>
+      </t-row>
 
-        <!-- 添加任务组件 -->
-        <TodoForm @submit="handleCreateTodo" :loading="todoStore.loading" />
+      <!-- 添加任务组件 -->
+      <TodoForm @submit="handleCreateTodo" :loading="todoStore.loading" />
 
-        <!-- 错误提示 -->
-        <v-alert
-          v-if="todoStore.error"
-          type="error"
-          dismissible
-          @click:close="todoStore.clearError"
-          class="mb-4"
-        >
-          {{ todoStore.error }}
-        </v-alert>
+      <!-- 错误提示 -->
+      <t-alert
+        v-if="todoStore.error"
+        theme="error"
+        message="操作失败"
+        :description="todoStore.error"
+        close
+        @close="todoStore.clearError"
+      />
 
-        <!-- 任务列表组件 -->
-        <TodoList
-          :todos="todoStore.todos"
-          :loading="todoStore.loading"
-          @update="handleUpdateTodo"
-          @delete="handleDeleteTodo"
-          @complete="handleCompleteTodo"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+      <!-- 任务列表组件 -->
+      <TodoList
+        :todos="todoStore.todos"
+        :loading="todoStore.loading"
+        @update="handleUpdateTodo"
+        @delete="handleDeleteTodo"
+        @complete="handleCompleteTodo"
+      />
+    </t-space>
+  </div>
 </template>
+
+<style scoped>
+  .home-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .title-card {
+    text-align: center;
+  }
+
+  .title-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--td-text-color-primary);
+  }
+
+  .stat-card {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-content {
+    padding: 20px;
+  }
+
+  .stat-icon {
+    margin-bottom: 8px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: var(--td-text-color-secondary);
+  }
+
+  .stat-primary .stat-icon,
+  .stat-primary .stat-number {
+    color: var(--td-brand-color);
+  }
+
+  .stat-warning .stat-icon,
+  .stat-warning .stat-number {
+    color: var(--td-warning-color);
+  }
+
+  .stat-success .stat-icon,
+  .stat-success .stat-number {
+    color: var(--td-success-color);
+  }
+</style>

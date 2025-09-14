@@ -1,48 +1,3 @@
-<template>
-  <v-card class="mb-6" elevation="4">
-    <v-card-title class="text-h5 text-center">
-      <v-icon left>mdi-plus-circle</v-icon>
-      添加新任务
-    </v-card-title>
-
-    <v-card-text>
-      <v-form @submit.prevent="handleSubmit">
-        <v-text-field
-          v-model="formData.name"
-          label="任务名称"
-          placeholder="请输入任务名称"
-          required
-          outlined
-          :rules="[rules.required]"
-          prepend-inner-icon="mdi-clipboard-text"
-          class="mb-4"
-        />
-
-        <v-text-field
-          v-model="formData.description"
-          label="任务描述"
-          placeholder="请输入任务描述（可选）"
-          outlined
-          prepend-inner-icon="mdi-text"
-          class="mb-4"
-        />
-
-        <v-btn
-          type="submit"
-          color="primary"
-          size="large"
-          block
-          :loading="loading"
-          :disabled="!formData.name.trim()"
-        >
-          <v-icon left>mdi-plus</v-icon>
-          {{ loading ? '创建中...' : '创建任务' }}
-        </v-btn>
-      </v-form>
-    </v-card-text>
-  </v-card>
-</template>
-
 <script setup lang="ts">
   import { ref } from 'vue'
   import type { CreateTodoRequest } from '@/types/todo'
@@ -78,3 +33,57 @@
     }
   }
 </script>
+
+<template>
+  <t-card class="todo-form" header="添加新任务">
+    <template #header>
+      <div class="card-header">
+        <t-icon name="add-circle" />
+        <span class="header-title">添加新任务</span>
+      </div>
+    </template>
+
+    <t-form @submit.prevent="handleSubmit" layout="vertical">
+      <t-form-item label="任务名称" name="name" :rules="[rules.required]">
+        <t-input v-model="formData.name" placeholder="请输入任务名称" clearable />
+      </t-form-item>
+
+      <t-form-item label="任务描述" name="description">
+        <t-input v-model="formData.description" placeholder="请输入任务描述（可选）" clearable />
+      </t-form-item>
+
+      <t-form-item>
+        <t-button
+          type="submit"
+          theme="primary"
+          size="large"
+          block
+          :loading="loading"
+          :disabled="!formData.name.trim()"
+        >
+          <template #icon>
+            <t-icon name="add" />
+          </template>
+          {{ loading ? '创建中...' : '创建任务' }}
+        </t-button>
+      </t-form-item>
+    </t-form>
+  </t-card>
+</template>
+
+<style scoped>
+  .todo-form {
+    margin-bottom: 24px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>

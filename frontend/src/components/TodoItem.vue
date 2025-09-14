@@ -63,96 +63,96 @@
 </script>
 
 <template>
-  <v-card
-    :class="{ 'bg-grey-lighten-4': todo.completed }"
-    class="mb-3"
-    variant="outlined"
-    :elevation="todo.completed ? 1 : 2"
+  <t-card
+    :class="{ 'completed-todo': todo.completed }"
+    class="todo-item"
+    hover
   >
-    <v-card-text>
-      <div class="d-flex align-center">
-        <div class="flex-grow-1">
-          <h3
-            :class="{ 'text-decoration-line-through text-grey': todo.completed }"
-            class="text-h6 mb-1"
-          >
-            {{ todo.name }}
-          </h3>
-          <p
-            v-if="todo.description"
-            :class="{ 'text-decoration-line-through text-grey': todo.completed }"
-            class="text-body-2 ma-0"
-          >
-            {{ todo.description }}
-          </p>
-        </div>
-
-        <div class="d-flex gap-2 ml-4">
-          <v-btn
-            v-if="!todo.completed"
-            @click="$emit('complete', todo)"
-            color="success"
-            icon="mdi-check"
-            size="small"
-            variant="outlined"
-          ></v-btn>
-
-          <v-btn
-            @click="toggleEdit"
-            :color="isEditing ? 'warning' : 'primary'"
-            :icon="isEditing ? 'mdi-close' : 'mdi-pencil'"
-            size="small"
-            variant="outlined"
-          ></v-btn>
-
-          <v-btn
-            @click="$emit('delete', todo.id)"
-            color="error"
-            icon="mdi-delete"
-            size="small"
-            variant="outlined"
-          ></v-btn>
-        </div>
+    <div class="todo-content">
+      <div class="todo-info">
+        <h3 :class="{ 'completed-text': todo.completed }" class="todo-title">
+          {{ todo.name }}
+        </h3>
+        <p v-if="todo.description" :class="{ 'completed-text': todo.completed }" class="todo-desc">
+          {{ todo.description }}
+        </p>
       </div>
 
-      <!-- 编辑表单 -->
-      <v-expand-transition>
-        <div v-if="isEditing" class="mt-4 pt-4" style="border-top: 1px solid #e0e0e0">
-          <v-form @submit.prevent="handleUpdate">
-            <v-text-field
-              v-model="editData.name"
-              label="任务名称"
-              placeholder="请输入任务名称"
-              required
-              variant="outlined"
-              density="compact"
-              :rules="[rules.required]"
-              class="mb-3"
-            />
+      <div class="todo-actions">
+        <t-button
+          v-if="!todo.completed"
+          @click="$emit('complete', todo)"
+          theme="success"
+          variant="outline"
+          size="small"
+          shape="circle"
+        >
+          <template #icon>
+            <t-icon name="check" />
+          </template>
+        </t-button>
 
-            <v-text-field
-              v-model="editData.description"
-              label="任务描述"
-              placeholder="请输入任务描述（可选）"
-              variant="outlined"
-              density="compact"
-              class="mb-3"
-            />
+        <t-button
+          @click="toggleEdit"
+          :theme="isEditing ? 'warning' : 'primary'"
+          variant="outline"
+          size="small"
+          shape="circle"
+        >
+          <template #icon>
+            <t-icon :name="isEditing ? 'close' : 'edit'" />
+          </template>
+        </t-button>
 
-            <div class="d-flex gap-2">
-              <v-btn type="submit" color="primary" variant="flat" :disabled="!editData.name.trim()">
-                <v-icon left>mdi-content-save</v-icon>
-                保存
-              </v-btn>
+        <t-button
+          @click="$emit('delete', todo.id)"
+          theme="danger"
+          variant="outline"
+          size="small"
+          shape="circle"
+        >
+          <template #icon>
+            <t-icon name="delete" />
+          </template>
+        </t-button>
+      </div>
+    </div>
 
-              <v-btn @click="cancelEdit" color="grey" variant="outlined">
-                <v-icon left>mdi-cancel</v-icon>
-                取消
-              </v-btn>
-            </div>
-          </v-form>
+    <!-- 编辑表单 -->
+    <div v-if="isEditing" class="edit-form">
+      <t-form @submit.prevent="handleUpdate" layout="vertical">
+        <t-form-item label="任务名称" name="name" :rules="[rules.required]">
+          <t-input
+            v-model="editData.name"
+            placeholder="请输入任务名称"
+            clearable
+          />
+        </t-form-item>
+
+        <t-form-item label="任务描述" name="description">
+          <t-input
+            v-model="editData.description"
+            placeholder="请输入任务描述（可选）"
+            clearable
+          />
+        </t-form-item>
+
+        <div class="form-actions">
+          <t-button type="submit" theme="primary" size="small" :disabled="!editData.name.trim()">
+            <template #icon>
+              <t-icon name="check" />
+            </template>
+            保存
+          </t-button>
+
+          <t-button @click="cancelEdit" theme="default" variant="outline" size="small">
+            <template #icon>
+              <t-icon name="close" />
+            </template>
+            取消
+          </t-button>
         </div>
-      </v-expand-transition>
-    </v-card-text>
-  </v-card>
+      </t-form>
+    </div>
+  </t-card>
 </template>
