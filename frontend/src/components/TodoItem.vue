@@ -1,56 +1,3 @@
-<template>
-  <div class="todo-item" :class="{ completed: todo.completed }">
-    <div class="todo-content">
-      <h3 :class="{ completed: todo.completed }">{{ todo.name }}</h3>
-      <p v-if="todo.description" :class="{ completed: todo.completed }">
-        {{ todo.description }}
-      </p>
-    </div>
-
-    <div class="todo-actions">
-      <button
-        v-if="!todo.completed"
-        @click="$emit('complete', todo)"
-        class="btn btn-success"
-        title="标记为完成"
-      >
-        ✓
-      </button>
-      <button @click="toggleEdit" class="btn btn-info" :title="isEditing ? '取消编辑' : '编辑任务'">
-        {{ isEditing ? '✕' : '✏️' }}
-      </button>
-      <button @click="$emit('delete', todo.id)" class="btn btn-danger" title="删除任务">🗑️</button>
-    </div>
-
-    <!-- 编辑表单 -->
-    <div v-if="isEditing" class="edit-form">
-      <form @submit.prevent="handleUpdate">
-        <div class="form-group">
-          <input
-            v-model="editData.name"
-            type="text"
-            placeholder="任务名称"
-            required
-            class="form-input"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            v-model="editData.description"
-            type="text"
-            placeholder="任务描述"
-            class="form-input"
-          />
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">保存</button>
-          <button type="button" @click="cancelEdit" class="btn btn-secondary">取消</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   import { ref, reactive } from 'vue'
   import type { Todo, UpdateTodoRequest } from '@/types/todo'
@@ -74,6 +21,10 @@
     description: ''
   })
 
+  const rules = {
+    required: (value: string) => !!value || '此字段为必填项'
+  }
+
   const toggleEdit = (): void => {
     if (isEditing.value) {
       cancelEdit()
@@ -96,173 +47,112 @@
 
   const handleUpdate = (): void => {
     if (!editData.name.trim()) {
-      alert('请输入任务名称')
       return
     }
 
-    emit('update', {
+    const updateData: UpdateTodoRequest = {
       id: props.todo.id,
-      name: editData.name,
-      description: editData.description,
+      name: editData.name.trim(),
+      description: editData.description.trim(),
       completed: props.todo.completed
-    })
+    }
 
+    emit('update', updateData)
     cancelEdit()
   }
 </script>
 
-<style scoped>
-  .todo-item {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-  }
+<template>
+  <v-card
+    :class="{ 'bg-grey-lighten-4': todo.completed }"
+    class="mb-3"
+    variant="outlined"
+    :elevation="todo.completed ? 1 : 2"
+  >
+    <v-card-text>
+      <div class="d-flex align-center">
+        <div class="flex-grow-1">
+          <h3
+            :class="{ 'text-decoration-line-through text-grey': todo.completed }"
+            class="text-h6 mb-1"
+          >
+            {{ todo.name }}
+          </h3>
+          <p
+            v-if="todo.description"
+            :class="{ 'text-decoration-line-through text-grey': todo.completed }"
+            class="text-body-2 ma-0"
+          >
+            {{ todo.description }}
+          </p>
+        </div>
 
-  .todo-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
+        <div class="d-flex gap-2 ml-4">
+          <v-btn
+            v-if="!todo.completed"
+            @click="$emit('complete', todo)"
+            color="success"
+            icon="mdi-check"
+            size="small"
+            variant="outlined"
+          ></v-btn>
 
-  .todo-item.completed {
-    opacity: 0.7;
-    background: rgba(255, 255, 255, 0.6);
-  }
+          <v-btn
+            @click="toggleEdit"
+            :color="isEditing ? 'warning' : 'primary'"
+            :icon="isEditing ? 'mdi-close' : 'mdi-pencil'"
+            size="small"
+            variant="outlined"
+          ></v-btn>
 
-  .todo-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
+          <v-btn
+            @click="$emit('delete', todo.id)"
+            color="error"
+            icon="mdi-delete"
+            size="small"
+            variant="outlined"
+          ></v-btn>
+        </div>
+      </div>
 
-  .todo-content h3 {
-    margin: 0;
-    color: #333;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-  }
+      <!-- 编辑表单 -->
+      <v-expand-transition>
+        <div v-if="isEditing" class="mt-4 pt-4" style="border-top: 1px solid #e0e0e0">
+          <v-form @submit.prevent="handleUpdate">
+            <v-text-field
+              v-model="editData.name"
+              label="任务名称"
+              placeholder="请输入任务名称"
+              required
+              variant="outlined"
+              density="compact"
+              :rules="[rules.required]"
+              class="mb-3"
+            />
 
-  .todo-content h3.completed {
-    text-decoration: line-through;
-    color: #999;
-  }
+            <v-text-field
+              v-model="editData.description"
+              label="任务描述"
+              placeholder="请输入任务描述（可选）"
+              variant="outlined"
+              density="compact"
+              class="mb-3"
+            />
 
-  .todo-content p {
-    margin: 0;
-    color: #666;
-    line-height: 1.4;
-    transition: all 0.3s ease;
-  }
+            <div class="d-flex gap-2">
+              <v-btn type="submit" color="primary" variant="flat" :disabled="!editData.name.trim()">
+                <v-icon left>mdi-content-save</v-icon>
+                保存
+              </v-btn>
 
-  .todo-content p.completed {
-    text-decoration: line-through;
-    color: #aaa;
-  }
-
-  .todo-actions {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 40px;
-  }
-
-  .btn-success {
-    background: #10b981;
-    color: white;
-  }
-
-  .btn-success:hover {
-    background: #059669;
-  }
-
-  .btn-info {
-    background: #3b82f6;
-    color: white;
-  }
-
-  .btn-info:hover {
-    background: #2563eb;
-  }
-
-  .btn-danger {
-    background: #ef4444;
-    color: white;
-  }
-
-  .btn-danger:hover {
-    background: #dc2626;
-  }
-
-  .btn-primary {
-    background: #8b5cf6;
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: #7c3aed;
-  }
-
-  .btn-secondary {
-    background: #6b7280;
-    color: white;
-  }
-
-  .btn-secondary:hover {
-    background: #4b5563;
-  }
-
-  .edit-form {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
-
-  .form-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 0.9rem;
-  }
-
-  .form-input:focus {
-    outline: none;
-    border-color: #8b5cf6;
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  }
-
-  @media (max-width: 768px) {
-    .todo-actions {
-      justify-content: center;
-    }
-
-    .form-actions {
-      justify-content: center;
-    }
-
-    .btn {
-      font-size: 0.8rem;
-      padding: 0.4rem 0.8rem;
-    }
-  }
-</style>
+              <v-btn @click="cancelEdit" color="grey" variant="outlined">
+                <v-icon left>mdi-cancel</v-icon>
+                取消
+              </v-btn>
+            </div>
+          </v-form>
+        </div>
+      </v-expand-transition>
+    </v-card-text>
+  </v-card>
+</template>

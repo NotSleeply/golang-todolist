@@ -1,151 +1,165 @@
 <template>
-  <div class="about">
-    <div class="container">
-      <h1>关于 TodoList</h1>
-      <div class="content">
-        <p>这是一个基于 Vue 3 + Go 的现代化 TodoList 应用。</p>
+  <v-container class="py-8">
+    <v-row justify="center">
+      <v-col cols="12" md="10" lg="8">
+        <!-- 页面标题 -->
+        <v-card class="mb-6 text-center" elevation="8" color="primary" dark>
+          <v-card-title class="text-h3 pa-6">
+            <v-icon left size="large">mdi-information</v-icon>
+            关于 TodoList
+          </v-card-title>
+        </v-card>
 
-        <h2>技术栈</h2>
-        <div class="tech-stack">
-          <div class="tech-section">
-            <h3>前端</h3>
-            <ul>
-              <li>Vue 3 (Composition API)</li>
-              <li>Vite</li>
-              <li>Pinia (状态管理)</li>
-              <li>Vue Router</li>
-              <li>Axios</li>
-            </ul>
-          </div>
+        <!-- 应用描述 -->
+        <v-card class="mb-6" elevation="4">
+          <v-card-text class="pa-6">
+            <v-icon left size="large" color="primary" class="mb-4">mdi-application</v-icon>
+            <p class="text-h6 mb-0">这是一个基于 Vue 3 + Go 的现代化 TodoList 应用。</p>
+          </v-card-text>
+        </v-card>
 
-          <div class="tech-section">
-            <h3>后端</h3>
-            <ul>
-              <li>Go (Golang)</li>
-              <li>Gin 框架</li>
-              <li>GORM</li>
-              <li>MySQL</li>
-            </ul>
-          </div>
-        </div>
+        <!-- 技术栈 -->
+        <v-card class="mb-6" elevation="4">
+          <v-card-title class="text-h4 pa-4">
+            <v-icon left color="primary">mdi-layers</v-icon>
+            技术栈
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-card variant="outlined" class="h-100">
+                  <v-card-title class="text-h5">
+                    <v-icon left color="primary">mdi-web</v-icon>
+                    前端
+                  </v-card-title>
+                  <v-card-text>
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-title>Vue 3 (Composition API)</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Vuetify 3</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Vite</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Pinia (状态管理)</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Vue Router</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Axios</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-card-text>
+                </v-card>
+              </v-col>
 
-        <h2>功能特性</h2>
-        <ul class="features">
-          <li>📝 创建、编辑、删除任务</li>
-          <li>✅ 标记任务完成状态</li>
-          <li>📊 任务统计</li>
-          <li>🎨 现代化的用户界面</li>
-          <li>📱 响应式设计</li>
-          <li>🔄 实时数据同步</li>
-        </ul>
+              <v-col cols="12" md="6">
+                <v-card variant="outlined" class="h-100">
+                  <v-card-title class="text-h5">
+                    <v-icon left color="success">mdi-server</v-icon>
+                    后端
+                  </v-card-title>
+                  <v-card-text>
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-title>Go (Golang)</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>Gin 框架</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>GORM</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>MySQL</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
 
-        <div class="version-info">
-          <p><strong>版本:</strong> 1.0.0</p>
-          <p><strong>构建时间:</strong> {{ new Date().toLocaleDateString() }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+        <!-- 功能特性 -->
+        <v-card class="mb-6" elevation="4">
+          <v-card-title class="text-h4 pa-4">
+            <v-icon left color="primary">mdi-star</v-icon>
+            功能特性
+          </v-card-title>
+          <v-card-text>
+            <v-list>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="primary">mdi-pencil</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>创建、编辑、删除任务</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="success">mdi-check-circle</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>标记任务完成状态</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="info">mdi-chart-line</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>任务统计</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="purple">mdi-palette</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>现代化的用户界面</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="orange">mdi-responsive</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>响应式设计</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-prepend>
+                  <v-icon color="teal">mdi-sync</v-icon>
+                </v-list-item-prepend>
+                <v-list-item-title>实时数据同步</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+
+        <!-- 版本信息 -->
+        <v-card elevation="4" color="grey-lighten-4">
+          <v-card-title class="text-h5 pa-4">
+            <v-icon left color="primary">mdi-information-outline</v-icon>
+            版本信息
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-chip color="primary" prepend-icon="mdi-tag">
+                  版本: 1.0.0
+                </v-chip>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-chip color="success" prepend-icon="mdi-calendar">
+                  构建时间: {{ new Date().toLocaleDateString() }}
+                </v-chip>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
-  // 这里可以添加组件逻辑
+// 这里可以添加组件逻辑
 </script>
 
-<style scoped>
-  .about {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem 0;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  h1 {
-    text-align: center;
-    color: white;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .content {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 2rem;
-    color: white;
-  }
-
-  h2 {
-    color: #fff;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-
-  .tech-stack {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 1rem 0;
-  }
-
-  .tech-section {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  ul li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  ul li:last-child {
-    border-bottom: none;
-  }
-
-  .features li {
-    font-size: 1.1rem;
-    padding: 0.75rem 0;
-  }
-
-  .version-info {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .version-info p {
-    margin: 0.5rem 0;
-  }
-
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-
-    .content {
-      padding: 1.5rem;
-    }
-
-    .tech-stack {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

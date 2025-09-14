@@ -50,130 +50,71 @@
 </script>
 
 <template>
-  <div class="home">
-    <div class="container">
-      <h1 class="title">{{ $route.meta.title || 'Vue 3 TodoList' }}</h1>
+  <v-container class="py-8">
+    <v-row justify="center">
+      <v-col cols="12" md="10" lg="8">
+        <!-- 页面标题 -->
+        <v-card class="mb-6 text-center" elevation="8">
+          <v-card-title class="text-h3 pa-6">
+            <v-icon left size="large" color="primary">mdi-format-list-checks</v-icon>
+            {{ $route.meta.title || 'Vue 3 TodoList' }}
+          </v-card-title>
+        </v-card>
 
-      <!-- 统计信息 -->
-      <div class="stats">
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.totalTodos }}</span>
-          <span class="stat-label">总任务</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.pendingTodos.length }}</span>
-          <span class="stat-label">待完成</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.completedTodos.length }}</span>
-          <span class="stat-label">已完成</span>
-        </div>
-      </div>
+        <!-- 统计信息 -->
+        <v-row class="mb-6">
+          <v-col cols="12" sm="4">
+            <v-card class="text-center" color="primary" dark elevation="4">
+              <v-card-text>
+                <v-icon size="48" class="mb-2">mdi-format-list-bulleted</v-icon>
+                <div class="text-h4 font-weight-bold">{{ todoStore.totalTodos }}</div>
+                <div class="text-subtitle1">总任务</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-card class="text-center" color="warning" dark elevation="4">
+              <v-card-text>
+                <v-icon size="48" class="mb-2">mdi-clock-outline</v-icon>
+                <div class="text-h4 font-weight-bold">{{ todoStore.pendingTodos.length }}</div>
+                <div class="text-subtitle1">待完成</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-card class="text-center" color="success" dark elevation="4">
+              <v-card-text>
+                <v-icon size="48" class="mb-2">mdi-check-circle</v-icon>
+                <div class="text-h4 font-weight-bold">{{ todoStore.completedTodos.length }}</div>
+                <div class="text-subtitle1">已完成</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
 
-      <!-- 添加任务组件 -->
-      <TodoForm @submit="handleCreateTodo" />
+        <!-- 添加任务组件 -->
+        <TodoForm @submit="handleCreateTodo" :loading="todoStore.loading" />
 
-      <!-- 错误提示 -->
-      <div v-if="todoStore.error" class="error-message">
-        {{ todoStore.error }}
-        <button @click="todoStore.clearError" class="error-close">&times;</button>
-      </div>
+        <!-- 错误提示 -->
+        <v-alert
+          v-if="todoStore.error"
+          type="error"
+          dismissible
+          @click:close="todoStore.clearError"
+          class="mb-4"
+        >
+          {{ todoStore.error }}
+        </v-alert>
 
-      <!-- 任务列表组件 -->
-      <TodoList
-        :todos="todoStore.todos"
-        :loading="todoStore.loading"
-        @update="handleUpdateTodo"
-        @delete="handleDeleteTodo"
-        @complete="handleCompleteTodo"
-      />
-    </div>
-  </div>
+        <!-- 任务列表组件 -->
+        <TodoList
+          :todos="todoStore.todos"
+          :loading="todoStore.loading"
+          @update="handleUpdateTodo"
+          @delete="handleDeleteTodo"
+          @complete="handleCompleteTodo"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
-<style scoped>
-  .home {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem 0;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  .title {
-    text-align: center;
-    color: white;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .stat-item {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    color: white;
-    min-width: 120px;
-  }
-
-  .stat-number {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    font-size: 0.9rem;
-    opacity: 0.8;
-  }
-
-  .error-message {
-    background: #ff6b6b;
-    color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .error-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: 768px) {
-    .stats {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .title {
-      font-size: 2rem;
-    }
-  }
-</style>
