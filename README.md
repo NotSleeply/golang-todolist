@@ -1,20 +1,31 @@
 # Golang TodoList
 
-一个基于 Go 后端和静态前端的待办事项管理应用。适合学习全栈开发、Go Web 服务和前后端分离架构。
+一个基于 Go 后端和 Vue 3 前端的待办事项管理应用。适合学习全栈开发、Go Web 服务和现代前端架构。
 
 ## 项目结构
 
 ```
 golang-todolist/
-├── backend/      # Go 后端服务
-│   ├── main.go   # 后端入口
-│   └──  db/       # 数据模型
-│   
-├── frontend/     # 前端静态页面
+├── backend/      # Go 后端服务（Gin + GORM + MySQL）
+│   ├── main.go
+│   ├── config/
+│   ├── db/
+│   ├── handlers/
+│   ├── middleware/
+│   └── routes/
+│
+├── frontend/     # 前端项目（Vue 3 + Vite + Pinia + Vue Router）
 │   ├── index.html
-│   ├── script.js
-│   └── style.css
-└── README.md     # 项目说明
+│   ├── package.json
+│   ├── src/
+│   │   ├── App.vue
+│   │   ├── main.js
+│   │   ├── components/
+│   │   ├── views/
+│   │   ├── store/
+│   │   └── router/
+│   └── ...
+└── README.md
 ```
 
 ## 快速开始
@@ -31,15 +42,37 @@ golang-todolist/
    go run main.go
    ```
 
-### 前端预览
+### 前端启动
 
-直接用浏览器打开 `frontend/index.html` 即可访问前端页面。
+1. 进入 `frontend` 目录：
+   ```bash
+   cd frontend
+   ```
+2. 安装依赖（推荐使用 pnpm）：
+   ```bash
+   pnpm install
+   ```
+3. 启动开发服务器：
+   ```bash
+   pnpm dev
+   ```
+4. 打开浏览器访问 [http://localhost:3000](http://localhost:3000)
 
 ## 功能简介
 
-- 添加、删除、修改待办事项
-- 前后端分离，接口通信
-- 简洁易用的界面
+![todolist-home](./access/todolist-home.png)
+
+- 添加、删除、修改、完成待办事项
+- 前后端分离，RESTful API 通信
+- 支持跨域访问
+- 响应式界面，体验流畅
+- 支持多端访问
+
+## 技术栈
+
+- 后端：Go、Gin、GORM、MySQL
+- 前端：Vue 3、Vite、Pinia、Vue Router、Axios
+- 包管理：pnpm
 
 ## 贡献方式
 
