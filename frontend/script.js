@@ -1,6 +1,8 @@
+const apiUrl = "http://localhost:8001/api/v1/todos";
+
 // 获取TODO
 async function getTodos() {
-    const todos = await fetch('http://localhost:8001/get-all-todos')
+    const todos = await fetch(apiUrl)
     const todosData = await todos.json()
     if (!todosData || todosData.length === 0) {
         const ul = document.querySelector('ul')
@@ -27,20 +29,17 @@ async function getTodos() {
     })
 }
 
-// 获取所有todo
-getTodos()
-
 // 创建todo
 async function createTodo() {
     const form = document.querySelector('form')
     const formData = new FormData(form)
-    const todo = await fetch('http://localhost:8001/create', {
-        method: 'POST',
-        body: JSON.stringify({
-            name: formData.get('name'),
-            description: formData.get('description')
-        })
-    })
+    const todo = await fetch(apiUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        name: formData.get("name"),
+        description: formData.get("description"),
+      }),
+    });
     form.reset() // 清空表单
     getTodos()
 }
@@ -55,30 +54,30 @@ async function handleDisplay(id) {
 async function handleUpdate(id) {
     const name = document.querySelector(`#name-${id}`).value
     const description = document.querySelector(`#description-${id}`).value
-    const todo = await fetch('http://localhost:8001/update', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id, 
-            name: name, 
-            description: description,
-            completed: 'false'
-        })
-    })
+    const todo = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        description: description,
+        completed: "false",
+      }),
+    });
     getTodos()
 }
 
 // 删除todo
 async function deleteTodo(id) {
-    const todo = await fetch('http://localhost:8001/delete', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({id: id})
-    })
+    const todo = await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    });
     getTodos()
 }
 
@@ -87,17 +86,20 @@ async function handleFinished(id) {
     const name = document.querySelector(`#name1-${id}`).textContent
     const description = document.querySelector(`#description1-${id}`).textContent
 
-    const todo = await fetch('http://localhost:8001/update', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id, 
-            name: name, 
-            description: description,
-            completed: 'true'
-        })
-    })
+    const todo = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        description: description,
+        completed: "true",
+      }),
+    });
     getTodos()
-} 
+}
+
+// 获取所有todo
+getTodos()
