@@ -1,45 +1,3 @@
-<template>
-  <div class="home">
-    <div class="container">
-      <h1 class="title">{{ $route.meta.title || 'Vue 3 TodoList' }}</h1>
-
-      <!-- 统计信息 -->
-      <div class="stats">
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.totalTodos }}</span>
-          <span class="stat-label">总任务</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.pendingTodos.length }}</span>
-          <span class="stat-label">待完成</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ todoStore.completedTodos.length }}</span>
-          <span class="stat-label">已完成</span>
-        </div>
-      </div>
-
-      <!-- 添加任务组件 -->
-      <TodoForm @submit="handleCreateTodo" />
-
-      <!-- 错误提示 -->
-      <div v-if="todoStore.error" class="error-message">
-        {{ todoStore.error }}
-        <button @click="todoStore.clearError" class="error-close">&times;</button>
-      </div>
-
-      <!-- 任务列表组件 -->
-      <TodoList
-        :todos="todoStore.todos"
-        :loading="todoStore.loading"
-        @update="handleUpdateTodo"
-        @delete="handleDeleteTodo"
-        @complete="handleCompleteTodo"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   import { onMounted } from 'vue'
   import { useTodoStore } from '@/stores/todo'
@@ -90,6 +48,48 @@
     todoStore.fetchTodos()
   })
 </script>
+
+<template>
+  <div class="home">
+    <div class="container">
+      <h1 class="title">{{ $route.meta.title || 'Vue 3 TodoList' }}</h1>
+
+      <!-- 统计信息 -->
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-number">{{ todoStore.totalTodos }}</span>
+          <span class="stat-label">总任务</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{{ todoStore.pendingTodos.length }}</span>
+          <span class="stat-label">待完成</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{{ todoStore.completedTodos.length }}</span>
+          <span class="stat-label">已完成</span>
+        </div>
+      </div>
+
+      <!-- 添加任务组件 -->
+      <TodoForm @submit="handleCreateTodo" />
+
+      <!-- 错误提示 -->
+      <div v-if="todoStore.error" class="error-message">
+        {{ todoStore.error }}
+        <button @click="todoStore.clearError" class="error-close">&times;</button>
+      </div>
+
+      <!-- 任务列表组件 -->
+      <TodoList
+        :todos="todoStore.todos"
+        :loading="todoStore.loading"
+        @update="handleUpdateTodo"
+        @delete="handleDeleteTodo"
+        @complete="handleCompleteTodo"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .home {

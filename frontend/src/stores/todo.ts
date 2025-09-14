@@ -10,14 +10,10 @@ export const useTodoStore = defineStore('todo', () => {
   const error = ref<string | null>(null)
 
   // 计算属性
-  const completedTodos = computed(() => 
-    todos.value.filter(todo => todo.completed)
-  )
-  
-  const pendingTodos = computed(() => 
-    todos.value.filter(todo => !todo.completed)
-  )
-  
+  const completedTodos = computed(() => todos.value.filter((todo) => todo.completed))
+
+  const pendingTodos = computed(() => todos.value.filter((todo) => !todo.completed))
+
   const totalTodos = computed(() => todos.value.length)
 
   // 操作方法

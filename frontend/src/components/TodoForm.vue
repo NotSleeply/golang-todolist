@@ -35,7 +35,7 @@
     submit: [todoData: CreateTodoRequest]
   }>()
 
-  const props = defineProps<{
+  defineProps<{
     loading?: boolean
   }>()
 

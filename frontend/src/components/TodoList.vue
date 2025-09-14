@@ -29,13 +29,13 @@
   import TodoItem from './TodoItem.vue'
   import type { Todo } from '@/types/todo'
 
-  const emit = defineEmits<{
+  defineEmits<{
     update: [todo: Todo]
     delete: [id: string]
     complete: [todo: Todo]
   }>()
 
-  const props = defineProps<{
+  defineProps<{
     todos: Todo[]
     loading?: boolean
   }>()
