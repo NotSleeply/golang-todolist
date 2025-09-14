@@ -1,0 +1,49 @@
+import axios from 'axios'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001'
+
+// 创建 axios 实例
+const apiClient = axios.create({
+  baseURL: `${API_BASE_URL}/api/v1`,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  timeout: 10000
+})
+
+// 请求拦截器
+apiClient.interceptors.request.use(
+  (config) => {
+    console.log('发送请求:', config.method?.toUpperCase(), config.url)
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+// 响应拦截器
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log('收到响应:', response.status, response.data)
+    return response
+  },
+  (error) => {
+    console.error('请求失败:', error.response?.data || error.message)
+    return Promise.reject(error)
+  }
+)
+
+export const todoApi = {
+  // 获取所有任务
+  getAll: () => apiClient.get('/todos'),
+  
+  // 创建任务
+  create: (todo) => apiClient.post('/todos', todo),
+  
+  // 更新任务
+  update: (todo) => apiClient.put('/todos', todo),
+  
+  // 删除任务
+  delete: (id) => apiClient.delete('/todos', { data: { id } })
+}
