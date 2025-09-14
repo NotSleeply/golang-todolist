@@ -1,4 +1,4 @@
-# Go
+# Go 编译输出
 /bin/
 *.exe
 *.exe~
@@ -8,11 +8,16 @@
 *.test
 *.out
 
-# Go modules
-/go.sum
-/go.mod
+# Go modules（如需提交 go.mod/go.sum 可移除下面两行）
+go.sum
+go.mod
 
-# Node & 前端
+# IDE/编辑器相关
+.vscode/
+.idea/
+*.swp
+
+# 前端相关
 node_modules/
 dist/
 .env
@@ -21,5 +26,14 @@ dist/
 .DS_Store
 Thumbs.db
 
-# 日志
+# 日志文件
 *.log
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# 数据库
+*.db
+*.sqlite
+mysql_data/
