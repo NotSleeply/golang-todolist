@@ -33,3 +33,13 @@ docker-compose.override.yml
 *.db
 *.sqlite
 mysql_data/
+
+# 其他常见忽略
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tgz
+*.bak
+*.tmp
+*.cache
