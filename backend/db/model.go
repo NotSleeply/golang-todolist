@@ -1,6 +1,8 @@
 package db
 
 import (
+	"todo/config"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -8,17 +10,17 @@ import (
 var db *gorm.DB
 
 type Todo struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
+	ID          string `json:"id" gorm:"primarykey"`
+	Name        string `json:"name" gorm:"not null"`
 	Description string `json:"description"`
-	Completed   bool   `json:"completed"`
+	Completed   bool   `json:"completed" gorm:"default:false"`
 }
 
 func Init() {
-	// 修改为你的 MySQL 连接信息
-	dsn := "root:mYdatabase@tcp(127.0.0.1:3305)/my_database?charset=utf8mb4&parseTime=True&loc=Local"
+	cfg := config.Load()
+
 	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(cfg.GetDSN()), &gorm.Config{})
 	if err != nil {
 		panic("连接数据库失败: " + err.Error())
 	}

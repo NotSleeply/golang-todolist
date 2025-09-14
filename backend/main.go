@@ -1,151 +1,25 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
+	"todo/config"
 	"todo/db"
-
-	"github.com/google/uuid"
-
-	"net/http"
+	"todo/routes"
 )
 
-func enableCORS(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		if r.Method == http.MethodOptions {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-		next.ServeHTTP(w, r)
-	}
-}
-
 func main() {
+	// 加载配置
+	cfg := config.Load()
 
+	// 初始化数据库
 	db.Init()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("收到根路径 / 访问，来自 %s", r.RemoteAddr)
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("欢迎访问 TodoList 服务"))
-	})
+	// 设置路由
+	r := routes.SetupRoutes()
 
-	// create a new todo
-	http.HandleFunc("/create", enableCORS(handleCreateTodo))
-
-	// get all todos
-	http.HandleFunc("/get-all-todos", enableCORS(handleGetAllTodos))
-
-	// update a todo
-	http.HandleFunc("/update", enableCORS(handleUpdate))
-
-	// delete a todo
-	http.HandleFunc("/delete", enableCORS(handleDelete))
-
-	log.Println("Starting server on :8001")
-	if err := http.ListenAndServe(":8001", nil); err != nil {
-		log.Println("Server error:", err)
+	// 启动服务器
+	log.Printf("服务器启动在端口 %s", cfg.Port)
+	if err := r.Run(":" + cfg.Port); err != nil {
+		log.Fatal("服务器启动失败:", err)
 	}
-}
-
-func handleCreateTodo(w http.ResponseWriter, r *http.Request) {
-	// 1. 读取前端传来的参数
-	params := map[string]string{}
-	err := json.NewDecoder(r.Body).Decode(&params)
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	// 3. 处理参数
-	name := params["name"]
-	description := params["description"]
-	id := uuid.New().String()
-	// 4. 构造数据
-	var newTodo db.Todo = db.Todo{
-		ID:          id,
-		Name:        name,
-		Description: description,
-		Completed:   false,
-	}
-
-	// 5. 将数据存入数据库
-	err = db.CreateTodo(newTodo)
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	// 6. 返回结果
-	w.WriteHeader(http.StatusOK)
-}
-
-func handleGetAllTodos(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	// log.Println("handleGetAllTodos:", db.Todos)
-	// 2. 读取数据库中的数据
-	todos, err := db.GetAllTodos()
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	json.NewEncoder(w).Encode(todos)
-}
-
-func handleUpdate(w http.ResponseWriter, r *http.Request) {
-	// TODO
-	params := map[string]string{}
-	err := json.NewDecoder(r.Body).Decode(&params)
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	id := params["id"]
-	name := params["name"]
-	description := params["description"]
-	completed := params["completed"]
-
-	err = db.UpdateTodo(db.Todo{
-		ID:          id,
-		Name:        name,
-		Description: description,
-		Completed:   completed == "true",
-	})
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-}
-
-func handleDelete(w http.ResponseWriter, r *http.Request) {
-	params := map[string]string{}
-	err := json.NewDecoder(r.Body).Decode(&params)
-	if err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	id := params["id"]
-
-	if err = db.DeleteTodo(id); err != nil {
-		log.Fatal(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	// 3. 返回结果
-	w.WriteHeader(http.StatusOK)
 }
