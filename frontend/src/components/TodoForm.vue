@@ -43,7 +43,7 @@
       </div>
     </template>
 
-    <t-form @submit.prevent="handleSubmit" layout="vertical">
+    <t-form @submit="handleSubmit" layout="vertical">
       <t-form-item label="任务名称" name="name" :rules="[rules.required]">
         <t-input v-model="formData.name" placeholder="请输入任务名称" clearable />
       </t-form-item>
