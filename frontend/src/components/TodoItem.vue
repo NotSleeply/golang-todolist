@@ -63,11 +63,7 @@
 </script>
 
 <template>
-  <t-card
-    :class="{ 'completed-todo': todo.completed }"
-    class="todo-item"
-    hover
-  >
+  <t-card :class="{ 'completed-todo': todo.completed }" class="todo-item" hover>
     <div class="todo-content">
       <div class="todo-info">
         <h3 :class="{ 'completed-text': todo.completed }" class="todo-title">
@@ -122,19 +118,11 @@
     <div v-if="isEditing" class="edit-form">
       <t-form @submit.prevent="handleUpdate" layout="vertical">
         <t-form-item label="任务名称" name="name" :rules="[rules.required]">
-          <t-input
-            v-model="editData.name"
-            placeholder="请输入任务名称"
-            clearable
-          />
+          <t-input v-model="editData.name" placeholder="请输入任务名称" clearable />
         </t-form-item>
 
         <t-form-item label="任务描述" name="description">
-          <t-input
-            v-model="editData.description"
-            placeholder="请输入任务描述（可选）"
-            clearable
-          />
+          <t-input v-model="editData.description" placeholder="请输入任务描述（可选）" clearable />
         </t-form-item>
 
         <div class="form-actions">
@@ -156,3 +144,20 @@
     </div>
   </t-card>
 </template>
+
+<style scoped>
+  .todo-actions {
+    display: flex;
+    justify-content: flex-end; /* 让按钮靠右 */
+    align-items: center;
+    gap: 16px; /* 按钮之间的距离 */
+    margin-top: 12px;
+  }
+
+  .todo-actions .t-button {
+    font-size: 24px; /* 图标和按钮变大 */
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+</style>
