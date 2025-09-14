@@ -63,7 +63,7 @@ async function handleUpdate(id) {
         id: id,
         name: name,
         description: description,
-        completed: "false",
+        completed: false,
       }),
     });
     getTodos()
@@ -87,7 +87,7 @@ async function handleFinished(id) {
     const description = document.querySelector(`#description1-${id}`).textContent
 
     const todo = await fetch(apiUrl, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -95,7 +95,7 @@ async function handleFinished(id) {
         id: id,
         name: name,
         description: description,
-        completed: "true",
+        completed: true,
       }),
     });
     getTodos()
