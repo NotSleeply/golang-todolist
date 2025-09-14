@@ -8,10 +8,6 @@
 *.test
 *.out
 
-# Go modules（如需提交 go.mod/go.sum 可移除下面两行）
-go.sum
-go.mod
-
 # IDE/编辑器相关
 .vscode/
 .idea/
