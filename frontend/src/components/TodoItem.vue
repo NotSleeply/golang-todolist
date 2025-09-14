@@ -153,7 +153,10 @@
     gap: 16px; /* 按钮之间的距离 */
     margin-top: 12px;
   }
-
+  .completed-text {
+    text-decoration: line-through;
+    color: #aaa;
+  }
   .todo-actions .t-button {
     font-size: 24px; /* 图标和按钮变大 */
     width: 40px;
