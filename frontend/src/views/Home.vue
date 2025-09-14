@@ -40,15 +40,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import { useTodoStore } from '@/stores/todo'
 import TodoForm from '@/components/TodoForm.vue'
 import TodoList from '@/components/TodoList.vue'
+import type { CreateTodoRequest, UpdateTodoRequest, Todo } from '@/types/todo'
 
 const todoStore = useTodoStore()
 
-const handleCreateTodo = async (todoData) => {
+const handleCreateTodo = async (todoData: CreateTodoRequest): Promise<void> => {
   try {
     await todoStore.createTodo(todoData)
   } catch (error) {
@@ -56,7 +57,7 @@ const handleCreateTodo = async (todoData) => {
   }
 }
 
-const handleUpdateTodo = async (todoData) => {
+const handleUpdateTodo = async (todoData: UpdateTodoRequest): Promise<void> => {
   try {
     await todoStore.updateTodo(todoData)
   } catch (error) {
@@ -64,7 +65,7 @@ const handleUpdateTodo = async (todoData) => {
   }
 }
 
-const handleDeleteTodo = async (id) => {
+const handleDeleteTodo = async (id: string): Promise<void> => {
   if (confirm('确定要删除这个任务吗？')) {
     try {
       await todoStore.deleteTodo(id)
@@ -74,7 +75,7 @@ const handleDeleteTodo = async (id) => {
   }
 }
 
-const handleCompleteTodo = async (todo) => {
+const handleCompleteTodo = async (todo: Todo): Promise<void> => {
   try {
     await todoStore.updateTodo({
       ...todo,

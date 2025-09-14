@@ -61,25 +61,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
+import type { Todo, UpdateTodoRequest } from '@/types/todo'
 
-const emit = defineEmits(['update', 'delete', 'complete'])
+const emit = defineEmits<{
+  update: [todo: UpdateTodoRequest]
+  delete: [id: string]
+  complete: [todo: Todo]
+}>()
 
-const props = defineProps({
-  todo: {
-    type: Object,
-    required: true
-  }
-})
+const props = defineProps<{
+  todo: Todo
+}>()
 
-const isEditing = ref(false)
-const editData = reactive({
+const isEditing = ref<boolean>(false)
+const editData = reactive<{
+  name: string
+  description: string
+}>({
   name: '',
   description: ''
 })
 
-const toggleEdit = () => {
+const toggleEdit = (): void => {
   if (isEditing.value) {
     cancelEdit()
   } else {
@@ -87,19 +92,19 @@ const toggleEdit = () => {
   }
 }
 
-const startEdit = () => {
+const startEdit = (): void => {
   isEditing.value = true
   editData.name = props.todo.name
   editData.description = props.todo.description || ''
 }
 
-const cancelEdit = () => {
+const cancelEdit = (): void => {
   isEditing.value = false
   editData.name = ''
   editData.description = ''
 }
 
-const handleUpdate = () => {
+const handleUpdate = (): void => {
   if (!editData.name.trim()) {
     alert('请输入任务名称')
     return

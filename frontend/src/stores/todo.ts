@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { todoApi } from '@/api/todoApi'
+import type { Todo, CreateTodoRequest, UpdateTodoRequest } from '@/types/todo'
 
 export const useTodoStore = defineStore('todo', () => {
   // 状态
-  const todos = ref([])
-  const loading = ref(false)
-  const error = ref(null)
+  const todos = ref<Todo[]>([])
+  const loading = ref<boolean>(false)
+  const error = ref<string | null>(null)
 
   // 计算属性
   const completedTodos = computed(() => 
@@ -20,7 +21,7 @@ export const useTodoStore = defineStore('todo', () => {
   const totalTodos = computed(() => todos.value.length)
 
   // 操作方法
-  const fetchTodos = async () => {
+  const fetchTodos = async (): Promise<void> => {
     try {
       loading.value = true
       error.value = null
@@ -34,7 +35,7 @@ export const useTodoStore = defineStore('todo', () => {
     }
   }
 
-  const createTodo = async (todoData) => {
+  const createTodo = async (todoData: CreateTodoRequest): Promise<void> => {
     try {
       loading.value = true
       await todoApi.create(todoData)
@@ -47,7 +48,7 @@ export const useTodoStore = defineStore('todo', () => {
     }
   }
 
-  const updateTodo = async (todoData) => {
+  const updateTodo = async (todoData: UpdateTodoRequest): Promise<void> => {
     try {
       loading.value = true
       await todoApi.update(todoData)
@@ -60,7 +61,7 @@ export const useTodoStore = defineStore('todo', () => {
     }
   }
 
-  const deleteTodo = async (id) => {
+  const deleteTodo = async (id: string): Promise<void> => {
     try {
       loading.value = true
       await todoApi.delete(id)
@@ -73,7 +74,7 @@ export const useTodoStore = defineStore('todo', () => {
     }
   }
 
-  const clearError = () => {
+  const clearError = (): void => {
     error.value = null
   }
 

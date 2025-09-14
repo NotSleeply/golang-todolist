@@ -27,24 +27,24 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { CreateTodoRequest } from '@/types/todo'
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits<{
+  submit: [todoData: CreateTodoRequest]
+}>()
 
-const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: false
-  }
-})
+const props = defineProps<{
+  loading?: boolean
+}>()
 
-const formData = ref({
+const formData = ref<CreateTodoRequest>({
   name: '',
   description: ''
 })
 
-const handleSubmit = () => {
+const handleSubmit = (): void => {
   if (!formData.value.name.trim()) {
     alert('请输入任务名称')
     return

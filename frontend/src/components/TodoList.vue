@@ -19,21 +19,20 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TodoItem from './TodoItem.vue'
+import type { Todo } from '@/types/todo'
 
-const emit = defineEmits(['update', 'delete', 'complete'])
+const emit = defineEmits<{
+  update: [todo: Todo]
+  delete: [id: string]
+  complete: [todo: Todo]
+}>()
 
-const props = defineProps({
-  todos: {
-    type: Array,
-    required: true
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  }
-})
+const props = defineProps<{
+  todos: Todo[]
+  loading?: boolean
+}>()
 </script>
 
 <style scoped>

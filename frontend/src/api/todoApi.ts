@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { type AxiosResponse } from 'axios'
+import type { Todo, CreateTodoRequest, UpdateTodoRequest, ApiResponse } from '@/types/todo'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001'
 
@@ -24,7 +25,7 @@ apiClient.interceptors.request.use(
 
 // 响应拦截器
 apiClient.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     console.log('收到响应:', response.status, response.data)
     return response
   },
@@ -36,14 +37,17 @@ apiClient.interceptors.response.use(
 
 export const todoApi = {
   // 获取所有任务
-  getAll: () => apiClient.get('/todos'),
+  getAll: (): Promise<AxiosResponse<Todo[]>> => apiClient.get('/todos'),
   
   // 创建任务
-  create: (todo) => apiClient.post('/todos', todo),
+  create: (todo: CreateTodoRequest): Promise<AxiosResponse<ApiResponse<Todo>>> => 
+    apiClient.post('/todos', todo),
   
   // 更新任务
-  update: (todo) => apiClient.put('/todos', todo),
+  update: (todo: UpdateTodoRequest): Promise<AxiosResponse<ApiResponse<string>>> => 
+    apiClient.put('/todos', todo),
   
   // 删除任务
-  delete: (id) => apiClient.delete('/todos', { data: { id } })
+  delete: (id: string): Promise<AxiosResponse<ApiResponse<string>>> => 
+    apiClient.delete('/todos', { data: { id } })
 }
