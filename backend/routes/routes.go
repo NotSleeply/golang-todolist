@@ -8,6 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+* SetupRoutes 设置并返回 Gin 路由引擎。
+* 定义所有的路由和中间件。
+ */
 func SetupRoutes() *gin.Engine {
 	r := gin.Default()
 

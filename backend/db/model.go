@@ -16,6 +16,9 @@ type Todo struct {
 	Completed   bool   `json:"completed" gorm:"default:false"`
 }
 
+/*
+* Init 初始化数据库连接并进行自动迁移。
+ */
 func Init() {
 	cfg := config.Load()
 
