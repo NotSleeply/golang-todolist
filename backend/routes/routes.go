@@ -35,11 +35,5 @@ func SetupRoutes() *gin.Engine {
 		api.DELETE("/todos", todoHandler.DeleteTodo)
 	}
 
-	// 保持兼容旧的路由
-	r.POST("/create", todoHandler.CreateTodo)
-	r.GET("/get-all-todos", todoHandler.GetAllTodos)
-	r.PUT("/update", todoHandler.UpdateTodo)
-	r.DELETE("/delete", todoHandler.DeleteTodo)
-
 	return r
 }
