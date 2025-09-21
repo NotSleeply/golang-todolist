@@ -2,19 +2,15 @@ package db
 
 import (
 	"todo/config"
+	"todo/model"
+	"todo/query"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var db *gorm.DB
-
-type Todo struct {
-	ID          string `json:"id" gorm:"primarykey"`
-	Name        string `json:"name" gorm:"not null"`
-	Description string `json:"description"`
-	Completed   bool   `json:"completed" gorm:"default:false"`
-}
+var Q *query.Query
 
 /*
 * Init 初始化数据库连接并进行自动迁移。
@@ -29,26 +25,35 @@ func Init() {
 	}
 
 	// 迁移 schema
-	db.AutoMigrate(&Todo{})
+	db.AutoMigrate(&model.Todo{})
+
+	// 初始化 Gen 查询器
+	Q = query.Use(db)
 }
 
-func CreateTodo(todo Todo) error {
-	result := db.Create(&todo)
-	return result.Error
+// 创建
+func CreateTodo(todo *model.Todo) error {
+	return Q.Todo.Create(todo)
 }
 
-func GetAllTodos() ([]Todo, error) {
-	var todos []Todo
-	result := db.Find(&todos)
-	return todos, result.Error
+// 查询全部
+func GetAllTodos() ([]*model.Todo, error) {
+	return Q.Todo.Find()
 }
 
-func UpdateTodo(todo Todo) error {
-	result := db.Save(&todo)
-	return result.Error
+// 根据ID查询
+func GetTodoByID(id string) (*model.Todo, error) {
+	return Q.Todo.Where(Q.Todo.ID.Eq(id)).First()
 }
 
+// 更新
+func UpdateTodo(todo *model.Todo) error {
+	_, err := Q.Todo.Where(Q.Todo.ID.Eq(todo.ID)).Updates(todo)
+	return err
+}
+
+// 删除
 func DeleteTodo(id string) error {
-	result := db.Delete(&Todo{}, "id = ?", id)
-	return result.Error
+	_, err := Q.Todo.Where(Q.Todo.ID.Eq(id)).Delete()
+	return err
 }

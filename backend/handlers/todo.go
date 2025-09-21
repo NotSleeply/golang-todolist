@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"todo/db"
+	"todo/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -16,7 +17,6 @@ func NewTodoHandler() *TodoHandler {
 
 /*
 * CreateTodo 处理创建新的 Todo 项目的请求。
-* 从请求体中解析 JSON 数据，创建新的 Todo 项目，并保存到数据库中。
  */
 func (h *TodoHandler) CreateTodo(c *gin.Context) {
 	var params struct {
@@ -29,11 +29,11 @@ func (h *TodoHandler) CreateTodo(c *gin.Context) {
 		return
 	}
 
-	newTodo := db.Todo{
+	newTodo := &model.Todo{
 		ID:          uuid.New().String(),
-		Name:        params.Name,
-		Description: params.Description,
-		Completed:   false,
+		Name:        &params.Name,
+		Description: &params.Description,
+		Completed:   new(bool), // 默认 false
 	}
 
 	if err := db.CreateTodo(newTodo); err != nil {
@@ -46,7 +46,6 @@ func (h *TodoHandler) CreateTodo(c *gin.Context) {
 
 /*
 * GetAllTodos 处理获取所有 Todo 项目的请求。
-* 从数据库中检索所有 Todo 项目，并返回给客户端。
  */
 func (h *TodoHandler) GetAllTodos(c *gin.Context) {
 	todos, err := db.GetAllTodos()
@@ -60,7 +59,6 @@ func (h *TodoHandler) GetAllTodos(c *gin.Context) {
 
 /*
 * UpdateTodo 处理更新现有 Todo 项目的请求。
-* 从请求体中解析 JSON 数据，更新对应的 Todo 项目，并保存到数据库中。
  */
 func (h *TodoHandler) UpdateTodo(c *gin.Context) {
 	var params struct {
@@ -75,11 +73,11 @@ func (h *TodoHandler) UpdateTodo(c *gin.Context) {
 		return
 	}
 
-	todo := db.Todo{
+	todo := &model.Todo{
 		ID:          params.ID,
-		Name:        params.Name,
-		Description: params.Description,
-		Completed:   params.Completed,
+		Name:        &params.Name,
+		Description: &params.Description,
+		Completed:   &params.Completed,
 	}
 
 	if err := db.UpdateTodo(todo); err != nil {
@@ -92,7 +90,6 @@ func (h *TodoHandler) UpdateTodo(c *gin.Context) {
 
 /*
 * DeleteTodo 处理删除指定 Todo 项目的请求。
-* 从请求体中解析 JSON 数据，删除对应的 Todo 项目。
  */
 func (h *TodoHandler) DeleteTodo(c *gin.Context) {
 	var params struct {
