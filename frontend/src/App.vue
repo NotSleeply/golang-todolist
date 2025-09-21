@@ -27,20 +27,20 @@
 </template>
 
 <style scoped>
-.header {
-  border-bottom: 1px solid var(--td-component-border);
-}
+  .header {
+    border-bottom: 1px solid var(--td-component-border);
+  }
 
-.logo {
-  margin: 0;
-  padding: 0 16px;
-  color: var(--td-brand-color);
-  font-size: 20px;
-  font-weight: 600;
-}
+  .logo {
+    margin: 0;
+    padding: 0 16px;
+    color: var(--td-brand-color);
+    font-size: 20px;
+    font-weight: 600;
+  }
 
-.main-content {
-  min-height: calc(100vh - 64px);
-  background: var(--td-bg-color-page);
-}
+  .main-content {
+    min-height: calc(100vh - 64px);
+    background: var(--td-bg-color-page);
+  }
 </style>
