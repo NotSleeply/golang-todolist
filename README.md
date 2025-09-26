@@ -1,6 +1,6 @@
 # Golang TodoList
 
-一个基于 Go 后端和 Vue 3 前端的待办事项管理应用。适合学习全栈开发、Go Web 服务和现代前端架构。
+一个基于 Go 后端和 Vue 3 前端的[待办事项](https://www.bilibili.com/video/BV1oUEozDEQa/)管理应用,适合学习全栈开发、Go Web 服务和现代前端架构。
 
 ## 项目结构
 
@@ -70,9 +70,28 @@ golang-todolist/
 
 ## 技术栈
 
-- 后端：Go、Gin、GORM、MySQL
-- 前端：Vue 3、Vite、Pinia、Vue Router、Axios
-- 包管理：pnpm
+### 后端
+
+- **[Go](https://go.dev/)**:
+  - [**8小时转职Golang工程师**](https://www.bilibili.com/video/BV1gf4y1r79E) : 最屌的视频教程;
+  - [刘丹冰Aceld](https://www.yuque.com/aceld): 大佬笔记,看就完了;
+  - [Golang中文学习文档站](https://golang.halfiisland.com) : Go爱好者驱动的中文学习站;
+  - [Go语言圣经（中文版）](https://gopl-zh.github.io/index.html) : 一本正经的Golang教科书;
+- **Gin**:一个非常流行的Web框架。
+  - [狂神说 Gin框架一小时上手](https://www.bilibili.com/video/BV1Rd4y1C7A1): 看完可直接上手;
+- [**GORM**](https://gorm.io/zh_CN):Go中的`ORM`.
+- [**GORM_GEN**](https://gorm.io/zh_CN/gen):GORM的脚手架,根据数据库快速搭建GROM的`CRUD`;
+  - [gorm-gen教程](https://www.bilibili.com/video/BV1Yad5YCEnG) : 需要`GORM`基础;
+- **MySQL**:使用[`docker`](./docker-compose.yml)安装
+
+### 前端
+
+- Vue3
+- Vite
+- Pinia
+- Vue Router
+- Axios
+- pnpm
 
 ## 贡献方式
 
